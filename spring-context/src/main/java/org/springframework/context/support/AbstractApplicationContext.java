@@ -496,7 +496,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
-                // 子类覆盖该方法，做 BeanFactory 的额外的处理
+                // BeanFactory准备工作完成后进行的后置处理工作
+				// 子类通过重写这个方法来在BeanFactory创建并预准备完成以后做进一步的设置
 				postProcessBeanFactory(beanFactory);
 				// Invoke factory processors registered as beans in the context.
                 // 激活各种 BeanFactory 处理器，例如 BeanFactoryPostProcessor
@@ -585,7 +586,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
         // 初始化早起的 ApplicationEvent 集合。
-        // 因为此事，ApplicationMulticaster 还没创建好。
+        // 因为此时，ApplicationMulticaster 还没创建好。
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -608,7 +609,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
 	    // 刷新( 重建 ) BeanFactory
 		refreshBeanFactory();
-		// 获得 BeanFactory
+		// 获得 GenericApplicationContext创建的BeanFactory对象
 		return getBeanFactory();
 	}
 
