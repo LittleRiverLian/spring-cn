@@ -63,9 +63,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
      * Cache of singleton objects: bean name to bean instance.
      *
      * 一级缓存，存放的是单例 bean 的映射。
-     *
      * 注意，这里的 bean 是已经创建完成的。
-     *
      * 对应关系为 bean name --> bean instance
      */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
@@ -74,9 +72,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
      * Cache of early singleton objects: bean name to bean instance.
      *
      * 二级缓存，存放的是早期半成品（未初始化完）的 bean，对应关系也是 bean name --> bean instance。
-     *
      * 它与 {@link #singletonObjects} 区别在于， 它自己存放的 bean 不一定是完整。
-     *
      * 这个 Map 也是【循环依赖】的关键所在。
      */
     private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
@@ -85,9 +81,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
      * Cache of singleton factories: bean name to ObjectFactory.
      *
      * 三级缓存，存放的是 ObjectFactory，可以理解为创建早期半成品（未初始化完）的 bean 的 factory ，最终添加到二级缓存 {@link #earlySingletonObjects} 中
-     *
      * 对应关系是 bean name --> ObjectFactory
-     *
      * 这个 Map 也是【循环依赖】的关键所在。
      */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
@@ -287,7 +281,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
                     // 后置处理
 					afterSingletonCreation(beanName);
 				}
-                // 加入缓存中
+                // 加入一级缓存中
 				if (newSingleton) {
 					addSingleton(beanName, singletonObject);
 				}
